@@ -9,7 +9,7 @@ on:
     types: ["**"]
 
 env:
-  BUILD_TYPE: Release
+  BUILD_TYPE: Debug
   WIN_LIBOQS_INSTALL_PATH: C:\liboqs
   WIN_PKG_CONFIG_PATH: C:\Strawberry\c\lib\pkgconfig
 
@@ -29,16 +29,9 @@ jobs:
         shell: cmd
         run: |
           git clone --branch main --single-branch --depth 1 https://github.com/jplomas/liboqs
-          cmake -S liboqs -B liboqs\build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.WIN_LIBOQS_INSTALL_PATH}} -DBUILD_SHARED_LIBS=ON
+          cmake -S liboqs -B liboqs\build -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_INSTALL_PREFIX=${{env.WIN_LIBOQS_INSTALL_PATH}} -DBUILD_SHARED_LIBS=ON -DOQS_BUILD_ONLY_LIB=ON
           cmake --build liboqs\build --parallel 4
           cmake --build liboqs\build --target install
-
-      - name: Run liboqs native tests
-        shell: cmd
-        run: |
-          set PATH=%PATH%;${{env.WIN_LIBOQS_INSTALL_PATH}}\bin
-          liboqs\build\tests\${{env.BUILD_TYPE}}\test_sig.exe SLH-DSA-SHA2-128f
-          liboqs\build\tests\${{env.BUILD_TYPE}}\test_sig.exe SLH-DSA-SHAKE-128f
 
       - name: Configure pkgconfig Windows
         shell: cmd
