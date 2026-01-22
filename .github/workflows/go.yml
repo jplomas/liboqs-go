@@ -9,7 +9,7 @@ on:
     types: ["**"]
 
 env:
-  BUILD_TYPE: Debug
+  BUILD_TYPE: Release
   WIN_LIBOQS_INSTALL_PATH: C:\liboqs
   WIN_PKG_CONFIG_PATH: C:\Strawberry\c\lib\pkgconfig
 
