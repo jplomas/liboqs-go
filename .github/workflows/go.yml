@@ -28,6 +28,7 @@ jobs:
         uses: msys2/setup-msys2@v2
         with:
           msystem: MINGW64
+          path-type: inherit
           update: true
           install: git mingw-w64-x86_64-gcc mingw-w64-x86_64-cmake mingw-w64-x86_64-ninja mingw-w64-x86_64-pkg-config
 
@@ -55,4 +56,5 @@ jobs:
           export PATH="/c/liboqs/bin:$PATH"
           # Debug: show what pkg-config finds
           pkg-config --cflags --libs liboqs-go || echo "pkg-config failed"
+          go version
           go test -v -run "TestSignatureCorrectness|TestSignatureCorrectnessWithCtxStr" ./oqstests
