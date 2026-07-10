@@ -98,6 +98,9 @@ jobs:
           CGO_ENABLED: 1
           CC: gcc
           PKG_CONFIG_PATH: /mingw64/lib/pkgconfig
+          # Larger stack reserve for stack-heavy sig schemes (e.g. MQOM2).
+          CGO_LDFLAGS: "-Wl,--stack,0x4000000"
+          CGO_LDFLAGS_ALLOW: "-Wl,--stack,.*"
         run: |
           export PATH="/c/liboqs/bin:$PATH"
           go run ./examples/kem/kem.go
@@ -112,6 +115,8 @@ jobs:
           CGO_ENABLED: 1
           CC: gcc
           PKG_CONFIG_PATH: /mingw64/lib/pkgconfig
+          CGO_LDFLAGS: "-Wl,--stack,0x4000000"
+          CGO_LDFLAGS_ALLOW: "-Wl,--stack,.*"
         run: |
           export PATH="/c/liboqs/bin:$PATH"
           go test -v -timeout 30m ./oqstests
